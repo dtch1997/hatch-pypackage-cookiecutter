@@ -1,6 +1,6 @@
 
 IMAGE_TAG ?= latest
-IMAGE_NAME ?= template_demo
+IMAGE_NAME ?= {{ cookiecutter.package_name }}
 
 .PHONY: build-docker
 build-docker:
