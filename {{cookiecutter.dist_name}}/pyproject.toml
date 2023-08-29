@@ -30,7 +30,7 @@ allow-direct-references = true
 
 [tool.hatch.version]
 source = "regex_commit"
-commit_extra_args = ["-e"]
+tag_sign = false
 path = "{{ cookiecutter.package_name }}/__init__.py"
 
 [tool.hatch.envs.default]
