@@ -34,21 +34,34 @@ commit_extra_args = ["-e"]
 path = "{{ cookiecutter.package_name }}/__init__.py"
 
 [tool.hatch.envs.default]
+dependencies = [
+  "coverage[toml]>=6.5",
+  "pytest",
+]
+[tool.hatch.envs.default.scripts]
+test = "pytest {args:tests}"
+test-cov = "coverage run -m pytest {args:tests}"
+cov-report = [
+  "- coverage combine",
+  "coverage report",
+]
+cov = [
+  "test-cov",
+  "cov-report",
+]
+
+
+[tool.hatch.envs.lint]
 python = "{{ cookiecutter.python_version }}"
 dependencies = [
     "black",
     "mypy",
     "ruff",
-    "pytest",
-    "pytest-cov",
     "mkdocs-material",
     "mkdocstrings[python]",
-    {% if cookiecutter.asyncio == "Y" -%}
-    "pytest-asyncio",
-    {%- endif %}
 ]
 
-[tool.hatch.envs.default.scripts]
+[tool.hatch.envs.lint.scripts]
 test = "pytest"
 test-cov-xml = "pytest --cov-report=xml"
 lint = [
@@ -100,9 +113,3 @@ single-line-exclusions = ["typing"]
 
 [tool.ruff.flake8-tidy-imports]
 ban-relative-imports = "all"
-
-[tool.pytest.ini_options]
-addopts = "--cov={{ cookiecutter.package_name }}/ --cov-report=term-missing"
-{% if cookiecutter.asyncio == "Y" -%}
-asyncio_mode = "strict"
-{%- endif %}
