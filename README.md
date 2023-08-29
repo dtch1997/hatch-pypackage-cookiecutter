@@ -1,6 +1,7 @@
 # Hatch PyPackage Cookiecutter
 
 Cookiecutter template for a cutting-edge Python package: Hatch, ruff, mypy, GitHub Actions and more!
+Heavily adapted from: https://github.com/frankie567/cookiecutter-hipster-pypackage/
 
 ## Features
 
