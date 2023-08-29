@@ -16,11 +16,26 @@
 
 ---
 
-## Development
+## Usage
 
 ### Setup environment
 
 We use [Hatch](https://hatch.pypa.io/latest/install/) to manage the development environment and production build. Ensure it's installed on your system.
+
+```bash
+$ hatch run python -m template_demo.main --config template_demo/config/default.py 
+
+seed: 0
+track: false
+wandb_entity: dtch1997
+wandb_name: null
+wandb_project: template_demo
+
+```
+
+
+
+## Development
 
 ### Run unit tests
 
