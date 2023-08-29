@@ -35,7 +35,7 @@ Then, for the GitHub Actions pipelines to work correctly, you should:
 [cruft](https://github.com/cruft/cruft) is a layer above Cookiecutter allowing you to update your project from the template after it has been generated.
 
 ```bash
-cruft create https://github.com/frankie567/cookiecutter-hipster-pypackage
+cruft create https://github.com/dtch1997/hatch-pypackage-cookiecutter
 ```
 
 ## License
