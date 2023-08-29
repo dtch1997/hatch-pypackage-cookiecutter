@@ -52,32 +52,39 @@ cov = [
 
 
 [tool.hatch.envs.lint]
-python = "{{ cookiecutter.python_version }}"
+detached = true
 dependencies = [
-    "black",
-    "mypy",
-    "ruff",
+  "black>=23.1.0",
+  "mypy>=1.0.0",
+  "ruff>=0.0.243",
+]
+[tool.hatch.envs.lint.scripts]
+typing = "mypy --install-types --non-interactive {args:hatch_demo tests}"
+style = [
+  "ruff {args:.}",
+  "black --check --diff {args:.}",
+]
+fmt = [
+  "black {args:.}",
+  "ruff --fix {args:.}",
+  "style",
+]
+all = [
+  "style",
+  "typing",
+]
+
+[tool.hatch.envs.docs]
+dependencies = [
     "mkdocs-material",
     "mkdocstrings[python]",
 ]
 
-[tool.hatch.envs.lint.scripts]
-test = "pytest"
-test-cov-xml = "pytest --cov-report=xml"
-lint = [
-  "black .",
-  "ruff --fix .",
-  "mypy {{ cookiecutter.package_name }}/",
-]
-lint-check = [
-  "black --check .",
-  "ruff .",
-  "mypy {{ cookiecutter.package_name }}/",
-]
+[tool.hatch.envs.docs.scripts]
 docs-serve = "mkdocs serve"
 docs-build = "mkdocs build"
 
-# Configure tool options
+# Configure black
 [tool.black]
 line-length = 88
 target-version = "py{{ cookiecutter.python_version | replace(".", "") }}"
@@ -94,6 +101,7 @@ exclude = '''
 )/
 '''
 
+# Configure ruff
 [tool.ruff]
 line-length = 88
 target-version = "py{{ cookiecutter.python_version | replace(".", "") }}"
@@ -113,3 +121,16 @@ single-line-exclusions = ["typing"]
 
 [tool.ruff.flake8-tidy-imports]
 ban-relative-imports = "all"
+
+# Configure coverage
+[tool.coverage.run]
+source_pkgs = ["{{ cookiecutter.package_name }}", "tests"]
+branch = true
+parallel = true
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
