@@ -63,7 +63,7 @@ dependencies=[
 detached = true
 
 [tool.hatch.envs.compile.scripts]
-base = "python -m piptools compile pyproject.toml -o requirements.txt"
+base = "python -m piptools compile pyproject.toml -o requirements/base.txt"
 
 # Setup lint env
 [tool.hatch.envs.lint]
