@@ -1,13 +1,28 @@
-[tool.ruff]
-target-version = "py{{ cookiecutter.python_version | replace(".", "") }}"
-extend-select = ["I", "TRY", "UP"]
+# Setup project
+[build-system]
+requires = ["hatchling", "hatch-regex-commit"]
+build-backend = "hatchling.build"
 
-[tool.pytest.ini_options]
-addopts = "--cov={{ cookiecutter.package_name }}/ --cov-report=term-missing"
-{% if cookiecutter.asyncio == "Y" -%}
-asyncio_mode = "strict"
-{%- endif %}
+[project]
+name = "{{ cookiecutter.dist_name }}"
+authors = [
+  { name = "{{ cookiecutter.dist_name }}", email = "{{ cookiecutter.email }}" }
+]
+description = "{{ cookiecutter.project_short_description }}"
+readme = "README.md"
+dynamic = ["version"]
+classifiers = [
+    "Programming Language :: Python :: 3 :: Only",
+]
+requires-python = ">={{ cookiecutter.python_version }}"
+dependencies = [
+]
 
+[project.urls]
+Documentation = "{{ cookiecutter.docs_url }}"
+Source = "{{ cookiecutter.repository_url }}"
+
+# Setup hatch
 [tool.hatch]
 
 [tool.hatch.metadata]
@@ -49,25 +64,45 @@ lint-check = [
 docs-serve = "mkdocs serve"
 docs-build = "mkdocs build"
 
-[build-system]
-requires = ["hatchling", "hatch-regex-commit"]
-build-backend = "hatchling.build"
+# Configure tool options
+[tool.black]
+line-length = 88
+target-version = "py{{ cookiecutter.python_version | replace(".", "") }}"
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | docs
+  | .github
+  | third_party
+  | _vendor
+  | scratch
+)/
+'''
 
-[project]
-name = "{{ cookiecutter.dist_name }}"
-authors = [
-  { name = "{{ cookiecutter.dist_name }}", email = "{{ cookiecutter.email }}" }
-]
-description = "{{ cookiecutter.project_short_description }}"
-readme = "README.md"
-dynamic = ["version"]
-classifiers = [
-    "Programming Language :: Python :: 3 :: Only",
-]
-requires-python = ">={{ cookiecutter.python_version }}"
-dependencies = [
+[tool.ruff]
+line-length = 88
+target-version = "py{{ cookiecutter.python_version | replace(".", "") }}"
+select = [
+  "E",   # pycodestyle
+  "F",   # pyflakes
+  "I",
 ]
 
-[project.urls]
-Documentation = "{{ cookiecutter.docs_url }}"
-Source = "{{ cookiecutter.repository_url }}"
+[tool.ruff.extend-per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.ruff.isort]
+known-first-party = ["{{ cookiecutter.package_name }}"]
+force-single-line = true
+single-line-exclusions = ["typing"]
+
+[tool.ruff.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.pytest.ini_options]
+addopts = "--cov={{ cookiecutter.package_name }}/ --cov-report=term-missing"
+{% if cookiecutter.asyncio == "Y" -%}
+asyncio_mode = "strict"
+{%- endif %}
