@@ -16,6 +16,10 @@ classifiers = [
 ]
 requires-python = ">={{ cookiecutter.python_version }}"
 dependencies = [
+    "absl-py",
+    "ml_collections",
+    "wandb",
+    "tensorboard"
 ]
 
 [project.urls]
@@ -33,6 +37,7 @@ source = "regex_commit"
 tag_sign = false
 path = "{{ cookiecutter.package_name }}/__init__.py"
 
+# Setup default env
 [tool.hatch.envs.default]
 dependencies = [
   "coverage[toml]>=6.5",
@@ -50,7 +55,17 @@ cov = [
   "cov-report",
 ]
 
+# Setup compile env
+[tool.hatch.envs.compile]
+dependencies=[
+  "pip-tools"
+]
+detached = true
 
+[tool.hatch.envs.compile.scripts]
+base = "python -m piptools compile pyproject.toml -o requirements.txt"
+
+# Setup lint env
 [tool.hatch.envs.lint]
 detached = true
 dependencies = [
