@@ -101,27 +101,6 @@ detached = true
 docs-serve = "mkdocs serve"
 docs-build = "mkdocs build"
 
-# Setup cluster deploy env
-[tool.hatch.envs.cluster]
-template = "compile"
-dependencies = [
-  "lxm3 @ git+https://github.com/ethanluoyc/lxm3.git"
-]
-
-[tool.hatch.envs.cluster.scripts]
-build-docker = [
-  "base",
-  "docker buildx build --tag {{ cookiecutter.package_name }}:latest -f Dockerfile ."
-]
-build-singularity = [
-  "build-docker",
-  "docker save {{ cookiecutter.package_name }}:latest -o image.tar",
-  "singularity build {{cookiecutter.package_name}}-latest.sif docker-archive://image.tar",
-  "rm image.tar"
-]
-clean-singularity = "rm {{cookiecutter.package_name}}-latest.sif"
-clean = "rm -rf build .cache"
-
 # Configure black
 [tool.black]
 line-length = 88
