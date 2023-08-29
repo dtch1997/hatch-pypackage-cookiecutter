@@ -94,6 +94,7 @@ dependencies = [
     "mkdocs-material",
     "mkdocstrings[python]",
 ]
+detached = true
 
 [tool.hatch.envs.docs.scripts]
 docs-serve = "mkdocs serve"
