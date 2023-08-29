@@ -1,4 +1,4 @@
-# Cookiecutter Hipster PyPackage
+# Hatch PyPackage Cookiecutter
 
 Cookiecutter template for a cutting-edge Python package: Hatch, ruff, mypy, GitHub Actions and more!
 
